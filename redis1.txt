@@ -1,0 +1,58 @@
+version: '3.8'
+
+networks:
+  server-net:
+    name: server-net
+    external:
+	
+	
+	
+	The "external" property is used to specify that the network should be created externally, rather than by a Docker Compose file. 
+	To use an external network in a Docker Compose file, you need to provide the name of the network as the value for the "external" property.
+	
+	
+	In this example, the "external" property is set to an object with a "name" property that specifies the name of the external network to use.
+	The network is defined outside of the Docker Compose file, and Docker Compose will use it when creating containers for the services defined in the file
+	
+	
+ volumes:
+      - type: bind
+        source: /data/redis
+        target: /data/redis
+      - type: bind
+        source: /etc/redis
+        target: /etc/redis
+		
+		
+		The first volume binding uses the "bind" type to map a directory on the host to a directory inside the container. Specifically, it maps the "/data/redis" directory on the host to the "/data/redis" directory inside the container. 
+		This means that any changes made to the "/data/redis" directory inside the container will be persisted on the host, and vice versa.
+		
+		
+		The first volume binding uses the "bind" type to map a directory on the host to a directory inside the container. Specifically, it maps the "/data/redis" directory on the host to the "/data/redis" directory inside the container.
+		This means that any changes made to the "/data/redis" directory inside the container will be persisted on the host, and vice versa.
+		
+		
+		Volume bindings are a way to provide persistent storage to containers. 
+		By mapping directories on the host to directories inside the container, you can ensure that any data written to those directories will persist even after the container is stopped or deleted.
+
+
+ deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - "node.role==manager"
+    networks:
+      - server-net
+	  
+	  
+	  The "deploy" property is used to specify options for deploying the service. 
+	  In this case, it specifies that the service should have 1 replica running, and that it should be placed on a node with the "manager" role.
+	  
+	  The "placement" property is used to specify constraints on where the service should be deployed. 
+	  In this case, it specifies that the service should be deployed on a node with the "manager" role.
+	  
+	  The "networks" property is used to specify the networks that the service should be connected to. 
+	  In this case, it specifies that the service should be connected to the "server-net" network, which is defined elsewhere in the Docker Compose file.
+	  
+	  Overall, this code is used to deploy a Docker service in a Docker Swarm environment, 
+	  with specific constraints on where the service should be placed and which network it should be connected to.
